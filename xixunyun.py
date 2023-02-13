@@ -23,8 +23,18 @@ headers = {'Content-Type': 'application/json'}
 response = requests.post(url='https://service-nm4jylpg-1251957121.gz.apigw.tencentcs.com/release/xixunyun', headers=headers, data=json.dumps(data))
 print(response.json()["data"])
 
-SCKEY=os.environ["SCKEY"]
-if len(SCKEY) >= 1:
-  url = 'https://sctapi.ftqq.com/'+SCKEY+'.send'
-  requests.post(url, data={"title": "习讯云签到提醒", "desp": response.json()["data"]})
 
+
+SCKEY=os.environ["SCKEY"]
+token = 'db37004bad284d5c8bef538488130e6e' #在pushpush网站中可以找到
+title= '签到推送' #改成你要的标题内容
+content = response.json()["data"] #改成你要的正文内容
+url = 'http://www.pushplus.plus/send'
+data = {
+    "token":SCKEY,
+    "title":title,
+    "content":content
+}
+body=json.dumps(data).encode(encoding='utf-8')
+headers = {'Content-Type':'application/json'}
+requests.post(url,data=body,headers=headers)
